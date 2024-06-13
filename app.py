@@ -6,14 +6,15 @@ import openai
 import pyttsx3
 import time
 from tempfile import NamedTemporaryFile
+import os
 
 # Configure OpenAI API key
-openai.api_key = 'YOUR_OPENAI_API_KEY'
+openai.api_key = 'sk-proj-IekqBBzHEAuAg44yLmIrT3BlbkFJ9ghwTd1yJVqZgNOWTxQ2'
 
 # Initialize pyttsx3 engine
 engine = pyttsx3.init()
 
-def record_audio(record_seconds=5, rate=44100, device=None):
+def record_audio(record_seconds=5, rate=44100, device=0):
     """
     Records audio from the microphone and returns the filename.
     """
@@ -52,7 +53,7 @@ def query_chatgpt(prompt):
     Queries the OpenAI ChatGPT API with the provided prompt.
     """
     response = openai.Completion.create(
-        engine="text-davinci-003",  # or "text-davinci-003" based on your available engines
+        engine="gpt-3.5-turbo-instruct",  # or "text-davinci-003" based on your available engines
         prompt=prompt,
         max_tokens=150
     )
@@ -72,7 +73,7 @@ st.title("Mental Health Chatbot")
 if 'conversation' not in st.session_state:
     st.session_state.conversation = []
 
-device_id = None  # Replace with the appropriate device ID from your list
+device_id = 0  # Replace with the appropriate device ID from your list
 
 if st.button("Speak"):
     # Record audio from the microphone
@@ -83,17 +84,26 @@ if st.button("Speak"):
 
     if text:
         st.session_state.conversation.append(("user", text))
+        print(f"Session state USER is : {st.session_state.conversation}")
 
         # Query ChatGPT API
-        response = query_chatgpt(text)
-        st.session_state.conversation.append(("bot", response))
+        response_from_gpt = query_chatgpt(text)
+        st.session_state.conversation.append(("bot", response_from_gpt))
+        print(f"Session state BOT is : {st.session_state.conversation}")
 
         # Speak out the response
-        speak_text(response)
+        speak_text(response_from_gpt)
 
 # Display the conversation
+# breakpoint()
+print("AAAAAAAA")
 for speaker, message in st.session_state.conversation:
+    print("BBBBBBBB")
     if speaker == "user":
-        st.markdown(f"<div style='text-align: left; color: blue;'>{message}</div>", unsafe_allow_html=True)
+        print("CCCCCCCC")
+        #st.markdown(f"<div style='text-align: left; color: blue;'>{message}</div>", unsafe_allow_html=True)
+        st.button(message)
     else:
-        st.markdown(f"<div style='text-align: right; color: green;'>{message}</div>", unsafe_allow_html=True)
+        print("-C-C-C-C-C")
+        #st.markdown(f"<div style='text-align: right; color: green;'>{message}</div>", unsafe_allow_html=True)
+        st.button(message)
