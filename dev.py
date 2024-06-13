@@ -48,12 +48,21 @@ def transcribe_audio(filename):
         return None
 
 def query_chatgpt(prompt):
+
+    base_prompt = (
+            "You are a helpful assistant specialized in mental health support. "
+            "Your job is to provide advice, support, and information about mental health issues. "
+            "You can address topics like stress, anxiety, depression, anger management, and general well-being. "
+            "Please keep your responses focused on mental health and well-being.\n\n"
+            "User: " + prompt + "\n"
+                                "Assistant:"
+    )
     """
     Queries the OpenAI ChatGPT API with the provided prompt.
     """
     response = openai.Completion.create(
         engine="gpt-3.5-turbo-instruct",  # or "text-davinci-003" based on your available engines
-        prompt=prompt,
+        prompt=base_prompt,
         max_tokens=2500
     )
     message = response.choices[0].text.strip()
