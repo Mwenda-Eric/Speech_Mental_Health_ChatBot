@@ -69,13 +69,16 @@ def speak_text_js(text):
     """
     Generates JavaScript code for browser-based text-to-speech.
     """
-    return f"""
+    print("AAAAAAAAAAAAAAAAA")
+    javascript = f"""
     <script>
     var msg = new SpeechSynthesisUtterance();
     msg.text = "{text}";
     window.speechSynthesis.speak(msg);
     </script>
     """
+    print("BBBBBBBBBBBBB")
+    return javascript
 
 st.title("Mental Health Chatbot")
 st.subheader("Welcome! Please speak about your mental health, such as your thoughts and feelings. Our chatbot is here to listen and respond to you.")
@@ -106,6 +109,7 @@ for speaker, message in st.session_state.conversation:
     else:
         st.markdown(f"<div style='text-align: right; color: green;'>{message}</div>", unsafe_allow_html=True)
 
+print("000000000000")
 # Speak out the latest response using the browser's TTS
 if st.session_state.conversation and st.session_state.conversation[-1][0] == "bot":
-    st.markdown(speak_text_js(st.session_state.conversation[-1][1]), unsafe_allow_html=True)
+    speak_text_js(st.session_state.conversation[-1][1])

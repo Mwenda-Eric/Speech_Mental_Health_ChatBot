@@ -11,7 +11,7 @@ from tempfile import NamedTemporaryFile
 openai.api_key = 'sk-proj-IekqBBzHEAuAg44yLmIrT3BlbkFJ9ghwTd1yJVqZgNOWTxQ2'
 
 # Initialize pyttsx3 engine
-#engine = pyttsx3.init()
+# engine = pyttsx3.init()
 
 def record_audio(record_seconds=5, rate=44100, device=0):
     """
