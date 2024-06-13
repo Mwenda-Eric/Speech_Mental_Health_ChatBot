@@ -54,7 +54,7 @@ def query_chatgpt(prompt):
     response = openai.Completion.create(
         engine="gpt-3.5-turbo-instruct",  # or "text-davinci-003" based on your available engines
         prompt=prompt,
-        max_tokens=150
+        max_tokens=2500
     )
     message = response.choices[0].text.strip()
     print("ChatGPT Response: " + message)
@@ -69,7 +69,8 @@ def speak_text(text):
     engine.runAndWait()
     engine = None
 st.title("Mental Health Chatbot")
-st.subheader("Welcome! Please speak about your mental health, such as your thoughts and feelings. Our chatbot is here to listen and respond to you.")
+st.subheader("Welcome! Please speak about your mental health, such as your thoughts and feelings."
+             " My Speaking assistant is here to listen and advise you.")
 
 if 'conversation' not in st.session_state:
     st.session_state.conversation = []
@@ -93,9 +94,13 @@ if st.button("Speak"):
 # Display the conversation
 for speaker, message in st.session_state.conversation:
     if speaker == "user":
-        st.markdown(f"<div style='text-align: left; color: blue;'>{message}</div>", unsafe_allow_html=True)
+        # st.markdown(f"<div style='text-align: left; color: blue;'>{message}</div>", unsafe_allow_html=True)
+        with st.chat_message("user"):
+            st.write(message)
     else:
-        st.markdown(f"<div style='text-align: right; color: green;'>{message}</div>", unsafe_allow_html=True)
+        # st.markdown(f"<div style='text-align: right; color: green;'>{message}</div>", unsafe_allow_html=True)
+        with st.chat_message("assistant"):
+            st.write(message)
 
 # Speak out the latest response
 if st.session_state.conversation and st.session_state.conversation[-1][0] == "bot":
