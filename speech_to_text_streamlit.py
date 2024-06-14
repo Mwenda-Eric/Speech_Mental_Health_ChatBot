@@ -1,11 +1,38 @@
+import base64
+import io
 import streamlit as st
-from audiorecorder import audiorecorder
+from AudioRecorder import audiorecorder
+from gtts import gTTS
+from IPython.display import Audio
 import speech_recognition as sr
 import openai
 import pyttsx3
 import time
 from tempfile import NamedTemporaryFile
 import os
+
+# Function to convert text to speech
+def text_to_speech(text):
+    tts = gTTS(text, lang='en')
+    tts.save("output.mp3")
+    return "output.mp3"
+
+def text_speech(text):
+    tts = gTTS(text=text, lang='en')
+    speech_bytes = io.BytesIO()
+    tts.write_to_fp(speech_bytes)
+    speech_bytes.seek(0)
+
+    b64 = base64.b64encode(speech_bytes.read()).decode()
+    if True:
+        md = f"""
+            <audio id="audioTag" controls autoplay>
+            <source src="data:audio/mp3;base64,{b64}"  type="audio/mpeg" format="audio/mpeg">
+            </audio>
+            """
+        st.markdown(md, unsafe_allow_html=True)
+    tts = None
+    return b64
 
 # Configure OpenAI API key
 openai.api_key = st.secrets["OPEN_API_KEY"]
@@ -122,4 +149,4 @@ for speaker, message in st.session_state.conversation:
 
 # Speak out the latest response
 if st.session_state.conversation and st.session_state.conversation[-1][0] == "bot":
-    speak_text(st.session_state.conversation[-1][1])
+    text_speech(st.session_state.conversation[-1][1])
