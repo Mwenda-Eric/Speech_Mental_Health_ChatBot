@@ -1,7 +1,7 @@
 import base64
 import io
 import streamlit as st
-from AudioRecorder import audiorecorder
+from audiorecorder import audiorecorder
 from gtts import gTTS
 from IPython.display import Audio
 import speech_recognition as sr
