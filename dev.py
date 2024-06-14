@@ -6,9 +6,10 @@ import openai
 import pyttsx3
 import time
 from tempfile import NamedTemporaryFile
+import os
 
 # Configure OpenAI API key
-openai.api_key = 'sk-proj-Nj1joC6h87MHPaP5iMMxT3BlbkFJ24Zi4A5topV81IOUiBls'
+openai.api_key = st.secrets["OPEN_API_KEY"]
 
 # Initialize pyttsx3 engine
 # engine = pyttsx3.init()
@@ -57,9 +58,7 @@ def query_chatgpt(prompt):
             "User: " + prompt + "\n"
                                 "Assistant:"
     )
-    """
-    Queries the OpenAI ChatGPT API with the provided prompt.
-    """
+    
     response = openai.Completion.create(
         engine="gpt-3.5-turbo-instruct",  # or "text-davinci-003" based on your available engines
         prompt=base_prompt,

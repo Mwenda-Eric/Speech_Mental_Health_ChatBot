@@ -5,9 +5,10 @@ import speech_recognition as sr
 import openai
 import time
 from tempfile import NamedTemporaryFile
+import os
 
 # Configure OpenAI API key
-openai.api_key = 'sk-proj-Nj1joC6h87MHPaP5iMMxT3BlbkFJ24Zi4A5topV81IOUiBls'
+openai.api_key = st.secrets["OPEN_API_KEY"]
 
 def record_audio(record_seconds=5, rate=44100, device=0):
     """
