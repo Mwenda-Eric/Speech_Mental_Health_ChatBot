@@ -1,8 +1,13 @@
 import streamlit as st
+from pydub import AudioSegment
+from pydub.playback import play
 import speech_recognition as sr
 import openai
+import pyaudio
 import pyttsx3
+import time
 from tempfile import NamedTemporaryFile
+import os
 
 # Configure OpenAI API key
 openai.api_key = st.secrets["OPEN_API_KEY"]
