@@ -19,3 +19,4 @@ wavio~=0.0.9
 pyttsx3~=2.90
 gTTS~=2.5.1
 pyaudio
+pydub
