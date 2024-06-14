@@ -10,7 +10,6 @@ import os
 
 # Configure OpenAI API key
 openai.api_key = st.secrets["OPEN_API_KEY"]
-
 # Initialize pyttsx3 engine
 engine = pyttsx3.init()
 
