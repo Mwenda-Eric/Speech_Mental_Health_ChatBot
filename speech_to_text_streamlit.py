@@ -112,9 +112,9 @@ def speak_text(text):
     engine.runAndWait()
     engine = None
 
-st.title("Mental Health Chatbot")
+st.title("Eric's Mental Health SPEECH-BOT")
 st.subheader("Welcome! Please speak about your mental health, such as your thoughts and feelings."
-             " My chatbot is here to listen and respond to you.")
+             " My speechbot is here to listen and respond to you.")
 
 if 'conversation' not in st.session_state:
     st.session_state.conversation = []
