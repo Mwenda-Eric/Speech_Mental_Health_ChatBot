@@ -1,36 +1,44 @@
 import streamlit as st
-from pydub import AudioSegment
-from pydub.playback import play
 import speech_recognition as sr
 import openai
-import pyaudio
 import pyttsx3
+import pyaudio
 import time
 from tempfile import NamedTemporaryFile
 import os
 
 # Configure OpenAI API key
 openai.api_key = st.secrets["OPEN_API_KEY"]
-def record_audio(record_seconds=5, rate=44100):
+
+# Initialize pyttsx3 engine
+# engine = pyttsx3.init()
+
+def record_audio(record_seconds=5):
     """
     Records audio from the microphone and returns the filename.
     """
     recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Recording...")
-        audio_data = recognizer.record(source, duration=record_seconds)
-        print("Finished recording.")
+    try:
+        with sr.Microphone() as source:
+            print("Recording...")
+            audio_data = recognizer.record(source, duration=record_seconds)
+            print("Finished recording.")
 
-    with NamedTemporaryFile(suffix=".wav", delete=False) as temp_audio_file:
-        filename = temp_audio_file.name
-        with open(filename, "wb") as f:
-            f.write(audio_data.get_wav_data())
-    return filename
+        with NamedTemporaryFile(suffix=".wav", delete=False) as temp_audio_file:
+            filename = temp_audio_file.name
+            with open(filename, "wb") as f:
+                f.write(audio_data.get_wav_data())
+        return filename
+    except OSError as e:
+        st.error("No default input device available. Please ensure a microphone is connected.")
+        return None
 
 def transcribe_audio(filename):
     """
     Transcribes the given audio file using Google's speech recognition.
     """
+    if filename is None:
+        return None
     recognizer = sr.Recognizer()
     audio_file = sr.AudioFile(filename)
 
