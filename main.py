@@ -1,26 +1,30 @@
 import streamlit as st
-import sounddevice as sd
-import wavio
+from pydub import AudioSegment
+from pydub.playback import play
 import speech_recognition as sr
 import openai
+import pyaudio
+import pyttsx3
 import time
 from tempfile import NamedTemporaryFile
 import os
 
 # Configure OpenAI API key
 openai.api_key = st.secrets["OPEN_API_KEY"]
-
-def record_audio(record_seconds=5, rate=44100, device=0):
+def record_audio(record_seconds=5, rate=44100):
     """
     Records audio from the microphone and returns the filename.
     """
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Recording...")
+        audio_data = recognizer.record(source, duration=record_seconds)
+        print("Finished recording.")
+
     with NamedTemporaryFile(suffix=".wav", delete=False) as temp_audio_file:
         filename = temp_audio_file.name
-        print("Recording...")
-        myrecording = sd.rec(int(record_seconds * rate), samplerate=rate, channels=1, device=device)
-        sd.wait()  # Wait until recording is finished
-        print("Finished recording.")
-        wavio.write(filename, myrecording, rate, sampwidth=2)
+        with open(filename, "wb") as f:
+            f.write(audio_data.get_wav_data())
     return filename
 
 def transcribe_audio(filename):
@@ -45,7 +49,9 @@ def transcribe_audio(filename):
         return None
 
 def query_chatgpt(prompt):
-
+    """
+    Queries the OpenAI ChatGPT API with the provided prompt.
+    """
     base_prompt = (
             "You are a helpful assistant specialized in mental health support. "
             "Your job is to provide advice, support, and information about mental health issues. "
@@ -54,9 +60,7 @@ def query_chatgpt(prompt):
             "User: " + prompt + "\n"
                                 "Assistant:"
     )
-    """
-    Queries the OpenAI ChatGPT API with the provided prompt.
-    """
+
     response = openai.Completion.create(
         engine="gpt-3.5-turbo-instruct",  # or "text-davinci-003" based on your available engines
         prompt=base_prompt,
@@ -66,20 +70,14 @@ def query_chatgpt(prompt):
     print("ChatGPT Response: " + message)
     return message
 
-def speak_text_js(text):
+def speak_text(text):
     """
-    Generates JavaScript code for browser-based text-to-speech.
+    Uses pyttsx3 to convert text to speech.
     """
-    print("AAAAAAAAAAAAAAAAA")
-    javascript = f"""
-    <script>
-    var msg = new SpeechSynthesisUtterance();
-    msg.text = "{text}";
-    window.speechSynthesis.speak(msg);
-    </script>
-    """
-    print("BBBBBBBBBBBBB")
-    return javascript
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
+    engine = None
 
 st.title("Mental Health Chatbot")
 st.subheader("Welcome! Please speak about your mental health, such as your thoughts and feelings. Our chatbot is here to listen and respond to you.")
@@ -87,11 +85,9 @@ st.subheader("Welcome! Please speak about your mental health, such as your thoug
 if 'conversation' not in st.session_state:
     st.session_state.conversation = []
 
-device_id = 0  # Replace with the appropriate device ID from your list
-
 if st.button("Speak"):
     # Record audio from the microphone
-    filename = record_audio(record_seconds=5, device=device_id)
+    filename = record_audio(record_seconds=5)
 
     # Transcribe the recorded audio
     text = transcribe_audio(filename)
@@ -106,11 +102,12 @@ if st.button("Speak"):
 # Display the conversation
 for speaker, message in st.session_state.conversation:
     if speaker == "user":
-        st.markdown(f"<div style='text-align: left; color: blue;'>{message}</div>", unsafe_allow_html=True)
+        with st.chat_message("user"):
+            st.write(message)
     else:
-        st.markdown(f"<div style='text-align: right; color: green;'>{message}</div>", unsafe_allow_html=True)
+        with st.chat_message("assistant"):
+            st.write(message)
 
-print("000000000000")
-# Speak out the latest response using the browser's TTS
+# Speak out the latest response
 if st.session_state.conversation and st.session_state.conversation[-1][0] == "bot":
-    speak_text_js(st.session_state.conversation[-1][1])
+    speak_text(st.session_state.conversation[-1][1])
