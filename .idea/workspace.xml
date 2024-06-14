@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce6fefb4-645c-423f-8197-91bf9a1f2895" name="Changes" comment="Key Updates:">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev.py" beforeDir="false" afterPath="$PROJECT_DIR$/dev.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="ce6fefb4-645c-423f-8197-91bf9a1f2895" name="Changes" comment="Ignoring files" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -145,7 +139,7 @@
       <workItem from="1718221122970" duration="16091000" />
       <workItem from="1718291791531" duration="2205000" />
       <workItem from="1718294683737" duration="79000" />
-      <workItem from="1718294808566" duration="25147000" />
+      <workItem from="1718294808566" duration="25615000" />
     </task>
     <task id="LOCAL-00001" summary="Updated Speech Engine.">
       <option name="closed" value="true" />
@@ -211,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718324470706</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Ignoring files">
+      <option name="closed" value="true" />
+      <created>1718327033997</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1718327033997</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -238,6 +240,7 @@
     <MESSAGE value="Prompt and layout update." />
     <MESSAGE value="Prompt and layout updated" />
     <MESSAGE value="Key Updates:" />
-    <option name="LAST_COMMIT_MESSAGE" value="Key Updates:" />
+    <MESSAGE value="Ignoring files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ignoring files" />
   </component>
 </project>
