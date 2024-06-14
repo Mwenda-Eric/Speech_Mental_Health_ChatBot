@@ -1,5 +1,5 @@
 import streamlit as st
-from AudioRecorder import audiorecorder
+from audiorecorder import audiorecorder
 import speech_recognition as sr
 import openai
 import pyttsx3
