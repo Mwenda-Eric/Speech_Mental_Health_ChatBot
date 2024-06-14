@@ -1,6 +1,5 @@
 import streamlit as st
-import sounddevice as sd
-import wavio
+from AudioRecorder import audiorecorder
 import speech_recognition as sr
 import openai
 import pyttsx3
@@ -14,31 +13,30 @@ openai.api_key = st.secrets["OPEN_API_KEY"]
 # Initialize pyttsx3 engine
 # engine = pyttsx3.init()
 
-def list_input_devices():
+def record_audio_source():
     """
-    Lists available audio input devices.
+    Records audio using the AudioRecorder component and saves it to 'audio.wav'.
     """
-    devices = sd.query_devices()
-    input_devices = [device for device in devices if device['max_input_channels'] > 0]
-    return input_devices
+    audio = audiorecorder("Click to record", "Click to stop recording")
+    if len(audio) > 0:
+        # To play audio in frontend:
+        st.audio(audio.export().read())
 
-def record_audio(record_seconds=5, rate=44100, device=0):
-    """
-    Records audio from the microphone and returns the filename.
-    """
-    with NamedTemporaryFile(suffix=".wav", delete=False) as temp_audio_file:
-        filename = temp_audio_file.name
-        print("Recording...")
-        myrecording = sd.rec(int(record_seconds * rate), samplerate=rate, channels=1, device=device)
-        sd.wait()  # Wait until recording is finished
-        print("Finished recording.")
-        wavio.write(filename, myrecording, rate, sampwidth=2)
-    return filename
+        # To save audio to a file, use pydub export method:
+        audio.export("audio.wav", format="wav")
+
+        # To get audio properties, use pydub AudioSegment properties:
+        st.write(f"Frame rate: {audio.frame_rate}, Frame width: {audio.frame_width}, Duration: {audio.duration_seconds} seconds")
+
+        return "audio.wav"
+    return "audio.wav"
 
 def transcribe_audio(filename):
     """
     Transcribes the given audio file using Google's speech recognition.
     """
+    if filename is None:
+        return None
     recognizer = sr.Recognizer()
     audio_file = sr.AudioFile(filename)
 
@@ -93,17 +91,15 @@ st.subheader("Welcome! Please speak about your mental health, such as your thoug
 if 'conversation' not in st.session_state:
     st.session_state.conversation = []
 
-# List available input devices
-input_devices = list_input_devices()
-st.write("INPUT DEVICES FOUND:")
-st.write(input_devices)
-input_device_names = [f"{i}: {device['name']}" for i, device in enumerate(input_devices)]
-selected_device_index = st.selectbox("Select input device", input_device_names, index=0)
-device_id = int(selected_device_index.split(":")[0])
+audio = audiorecorder("Click to record", "Click to stop recording")
+# Record audio using the AudioRecorder component
+# filename = record_audio_source()
+if len(audio) > 0:
+    # To play audio in frontend:
+    st.audio(audio.export().read())
 
-if st.button("Speak"):
-    # Record audio from the microphone
-    filename = record_audio(record_seconds=5, device=device_id)
+    # To save audio to a file, use pydub export method:
+    filename = audio.export("audio.wav", format="wav")
 
     # Transcribe the recorded audio
     text = transcribe_audio(filename)

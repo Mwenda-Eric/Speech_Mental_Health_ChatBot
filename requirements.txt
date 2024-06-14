@@ -20,3 +20,5 @@ gTTS~=2.5.1
 pyaudio
 pydub
 sounddevice
+streamlit-audiorecorder
+audiorecorder
