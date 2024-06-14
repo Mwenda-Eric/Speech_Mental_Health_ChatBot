@@ -113,12 +113,13 @@ def speak_text(text):
     engine = None
 
 st.title("Mental Health Chatbot")
-st.subheader("Welcome! Please speak about your mental health, such as your thoughts and feelings. Our chatbot is here to listen and respond to you.")
+st.subheader("Welcome! Please speak about your mental health, such as your thoughts and feelings."
+             " My chatbot is here to listen and respond to you.")
 
 if 'conversation' not in st.session_state:
     st.session_state.conversation = []
 
-audio = audiorecorder("Click to record", "Click to stop recording")
+audio = audiorecorder("Click to Speak", "Click to STOP Speaking")
 # Record audio using the AudioRecorder component
 # filename = record_audio_source()
 if len(audio) > 0:
