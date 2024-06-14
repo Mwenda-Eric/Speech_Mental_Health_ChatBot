@@ -9,8 +9,7 @@ from tempfile import NamedTemporaryFile
 import os
 
 # Configure OpenAI API key
-# openai.api_key = st.secrets["OPEN_API_KEY"]
-openai.api_key = "sk-proj-Nj1joC6h87MHPaP5iMMxT3BlbkFJ24Zi4A5topV81IOUiBls"
+openai.api_key = st.secrets["OPEN_API_KEY"]
 
 # Initialize pyttsx3 engine
 # engine = pyttsx3.init()
