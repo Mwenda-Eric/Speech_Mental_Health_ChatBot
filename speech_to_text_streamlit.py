@@ -11,29 +11,6 @@ import time
 from tempfile import NamedTemporaryFile
 import os
 
-# Function to convert text to speech
-def text_to_speech(text):
-    tts = gTTS(text, lang='en')
-    tts.save("output.mp3")
-    return "output.mp3"
-
-def text_speech(text):
-    tts = gTTS(text=text, lang='en')
-    speech_bytes = io.BytesIO()
-    tts.write_to_fp(speech_bytes)
-    speech_bytes.seek(0)
-
-    b64 = base64.b64encode(speech_bytes.read()).decode()
-    if True:
-        md = f"""
-            <audio id="audioTag" controls autoplay>
-            <source src="data:audio/mp3;base64,{b64}"  type="audio/mpeg" format="audio/mpeg">
-            </audio>
-            """
-        st.markdown(md, unsafe_allow_html=True)
-    tts = None
-    return b64
-
 # Configure OpenAI API key
 openai.api_key = st.secrets["OPEN_API_KEY"]
 
@@ -112,12 +89,43 @@ def speak_text(text):
     engine.runAndWait()
     engine = None
 
+# Function to convert text to speech
+def text_to_speech(text):
+    tts = gTTS(text, lang='en')
+    tts.save("output.mp3")
+    return "output.mp3"
+
+def text_speech(text):
+    tts = gTTS(text=text, lang='en')
+    speech_bytes = io.BytesIO()
+    tts.write_to_fp(speech_bytes)
+    speech_bytes.seek(0)
+
+    b64 = base64.b64encode(speech_bytes.read()).decode()
+    if True:
+        md = f"""
+            <audio id="audioTag" controls autoplay>
+            <source src="data:audio/mp3;base64,{b64}"  type="audio/mpeg" format="audio/mpeg">
+            </audio>
+            """
+        st.markdown(md, unsafe_allow_html=True)
+    tts = None
+    return b64
+
 st.title("Eric's Mental Health SPEECH-BOT")
-st.subheader("Welcome! Please speak about your mental health, such as your thoughts and feelings."
-             " My speechbot is here to listen and respond to you.")
+st.subheader("Hi there! Please speak about your mental health, such as your thoughts and feelings."
+             " My speechbot is here to listen and Guide you.")
 
 if 'conversation' not in st.session_state:
     st.session_state.conversation = []
+
+# with st.sidebar:
+#     with st.echo():
+#         st.write("This code will be printed to the sidebar.")
+# 
+#     with st.spinner("Loading..."):
+#         time.sleep(5)
+#     st.success("Done!")
 
 audio = audiorecorder("Click to Speak", "Click to STOP Speaking")
 # Record audio using the AudioRecorder component
