@@ -1,5 +1,5 @@
 # Mental Health Speech Bot
-## You can find the Hosted [Mental Health Speech ChatBOT HERE](https://mental-health-speech-chatbot-v4.streamlit.app/)
+## You can find the Hosted [Mental Health Speech ChatBOT HERE.](https://mental-health-speech-chatbot-v4.streamlit.app/)
 Mental Health Speech Bot! This tool provides a supportive environment where you can talk about your mental health, share your thoughts and feelings, and receive guidance. The bot uses advanced speech recognition and natural language processing to understand your concerns and offer relevant advice.
 
 ## Features
